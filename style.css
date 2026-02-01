@@ -133,7 +133,258 @@
     }
   }
 
+  :root {
+    /* Primitives add meaning to your properties, making it easier to remember what each value is used for */
+    --text-regular: var(--clr-gray-100);
+    --text-high-contrast: var(--clr-white);
+    --text-brand: var(--clr-brand-500);
+    --text-brand-light: var(--clr-brand-400);
+
+    --background-accent-light: var(--clr-green-400);
+    --background-accent-main: var(--clr-green-500);
+    --background-accent-dark: var(--clr-green-600);
+
+    --background-extra-light: var(--clr-brown-500);
+    --background-light: var(--clr-brown-600);
+    --background-main: var(--clr-brown-700);
+    --background-dark: var(--clr-brown-800);
+    --background-extra-dark: var(--clr-brown-900);
+
+    --font-size-heading-sm: var(--fs-700);
+    --font-size-heading-regular: var(--fs-800);
+    --font-size-heading-lg: var(--fs-900);
+    --font-size-heading-xl: var(--fs-1000);
+
+    --font-size-sm: var(--fs-300);
+    --font-size-regular: var(--fs-400);
+    --font-size-md: var(--fs-500);
+    --font-size-lg: var(--fs-600);
+
+    --border-radius-1: 0.25rem;
+    --border-radius-2: 0.5rem;
+    --border-radius-3: 0.75rem;
+  }
+
+  html {
+    font-family: var(--ff-body);
+    line-height: 1.6;
+  }
+
+  /* Set font size on the body rather than html in case base font size changes to keep styling consistent */
   body {
-    font-size:;
+    font-size: var(--font-size-regular);
+    color: var(--text-regular);
+    background-color: var(--background-main);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--ff-heading);
+    color: var(--text-high-contrast);
+  }
+
+  h1 {
+    font-size: var(--font-size-heading-lg);
+  }
+
+  a {
+    color: var(--text-high-contrast);
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--text-brand-light);
+  }
+
+  img {
+    border-radius: var(--border-radius-3);
+  }
+}
+
+@layer layout {
+  /* Utility class for vertical spacing between direct children */
+  .flow > * + * {
+    margin-top: var(--flow-spacer, 1em);
+  }
+
+  .grid-flow {
+    display: grid;
+    gap: var(--grid-flow-gap, 1rem);
+  }
+
+  .equal-columns {
+    display: grid;
+    gap: var(--equal-columns-gap, 1rem);
+    align-items: var(--equal-columns-vertical-alignment, stretch);
+
+    @media (width > 760px) {
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+    }
+
+    &[data-gap="large"] {
+      --equal-columns-gap: 2rem;
+    }
+
+    &[data-alignment="centered"] {
+      --equal-columns-vertical-alignment: center;
+    }
+  }
+
+  .section {
+    --padding-block: 3.75rem;
+    padding-block: var(--padding-block);
+
+    @media (width > 760px) {
+      --padding-block: 8rem;
+
+      &[data-padding="compact"] {
+        --padding-block: 4.5rem;
+      }
+    }
+  }
+
+  .wrapper {
+    /* Base content width */
+    --wrapper-content-width: 1130px;
+    /* Shared padding */
+    --wrapper-padding: 1rem;
+    /* Width formula */
+
+    max-width: calc(var(--wrapper-content-width) + var(--wrapper-padding) * 2);
+    margin-inline: auto;
+    padding-inline: var(--wrapper-padding);
+
+    /* wrapper modifiers using data attributes - can be done with nesting */
+    &[data-width="wide"] {
+      --wrapper-content-width: 1344px;
+    }
+
+    &[data-width="narrow"] {
+      --wrapper-content-width: 720px;
+    }
+  }
+}
+
+@layer components {
+  .site-header {
+    padding-block: 1rem;
+  }
+  .site-header__inner {
+    display: flex;
+    gap: 0.5rem 1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .primary-navigation {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+  }
+}
+
+@layer utilities {
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-regular {
+    color: var(--text-regular);
+  }
+
+  .text-high-contrast {
+    color: var(--text-high-contrast);
+  }
+
+  .text-brand {
+    color: var(--text-brand);
+  }
+
+  .text-brand-light {
+    color: var(--text-brand-light);
+  }
+
+  .background-accent-light {
+    background-color: var(--background-accent-light);
+  }
+
+  .background-accent-main {
+    background-color: var(--background-accent-main);
+  }
+
+  .background-accent-dark {
+    background-color: var(--background-accent-dark);
+  }
+
+  .background-extra-light {
+    background-color: var(--background-extra-light);
+  }
+
+  .background-light {
+    background-color: var(--background-light);
+  }
+
+  .background-main {
+    background-color: var(--background-main);
+  }
+
+  .background-dark {
+    background-color: var(--background-dark);
+  }
+
+  .background-extra-dark {
+    background-color: var(--background-extra-dark);
+  }
+
+  .section-title {
+    font-size: var(--font-size-heading-regular);
+  }
+
+  /* Font size utlities */
+  .font-size-sm {
+    font-size: var(--font-size-sm);
+  }
+
+  .font-size-regular {
+    font-size: var(--font-size-regular);
+  }
+
+  .font-size-md {
+    font-size: var(--font-size-md);
+  }
+
+  .font-size-lg {
+    font-size: var(--font-size-lg);
+  }
+
+  .font-size-heading-sm {
+    font-size: var(--font-size-heading-sm);
+  }
+
+  .font-size-heading-regular {
+    font-size: var(--font-size-heading-regular);
+  }
+
+  .font-size-heading-lg {
+    font-size: var(--font-size-heading-lg);
+  }
+
+  .font-size-heading-xl {
+    font-size: var(--font-size-heading-xl);
   }
 }
